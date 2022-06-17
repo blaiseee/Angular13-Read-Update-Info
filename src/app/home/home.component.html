@@ -1,0 +1,52 @@
+<div style="padding: 24px; margin: 24px;">
+    <mat-spinner *ngIf="persons.length === 0"></mat-spinner>
+    <mat-card [class.selected]="person === selectedPerson" *ngFor="let person of persons | paginate: {itemsPerPage: 5, currentPage: page, totalItems: totalLength}">
+        <mat-card-header>
+            <img mat-card-avatar src="{{person.profile_picture}}">
+            <mat-card-title>Name: {{person.firstName}} {{person.middleName}} {{person.lastName}}</mat-card-title>
+            <mat-card-subtitle>Email: {{person.email}}</mat-card-subtitle>
+            <mat-card-subtitle>Birthday: {{person.birthMonth}} {{person.birthDay}} {{person.birthYear}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Interests: {{person.interest}}</p>
+        </mat-card-content>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click)="openModal(person)">
+          View More
+        </button>
+    </mat-card>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>
+
+<!-- Paginator -->
+<section>
+    <div class="example-button-row">
+      <div class="example-flex-container">
+        <div class="example-button-container">
+          <button style="position: absolute; top: 40px; right: 40px;" mat-fab color="primary" (click)="openDialog()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Personal Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-person-dialog [person]="selectedPerson"></app-person-dialog>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+
